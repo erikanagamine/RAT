@@ -3,7 +3,7 @@
 
 Real Application Testing, aka RAT, is an option introduced on oracle 11g.
 
-This option comprehend the follow features:
+This option comprehand the follow features:
 
 * Database Replay
 * SQL Performance analyzer (SPA)
@@ -187,7 +187,7 @@ Copyright (c) 1982, 2011, Oracle and/or its affiliates.  All rights reserved.
 
 
 Report for Workload in: /u01/app/oracle/dbcapture
------------------------
+'-----------------------
 
 Recommendation:
 Consider using at least 1 clients divided among 1 CPU(s)
@@ -267,11 +267,12 @@ Replay client 1 finished (21:30:00)
 
 
 
-___Additional  materials__
- Database Capture and Replay: Common Errors and Reasons (Doc ID 463263.1)
+__Additional  materials__
 
- Mandatory Patches for Database Testing Functionality for Current and Earlier Releases (Doc ID 560977.1)
+* Database Capture and Replay: Common Errors and Reasons (Doc ID 463263.1)
+
+* Mandatory Patches for Database Testing Functionality for Current and Earlier Releases (Doc ID 560977.1)
  
-DBMS_REPLAY - https://docs.oracle.com/en/database/oracle/oracle-database/18/arpls/DBMS_WORKLOAD_REPLAY.html#GUID-FE03A123-2257-41FF-BA90-AD0114DC1A4F
+* DBMS_REPLAY - https://docs.oracle.com/en/database/oracle/oracle-database/18/arpls/DBMS_WORKLOAD_REPLAY.html#GUID-FE03A123-2257-41FF-BA90-AD0114DC1A4F
 
-How to Use Database Replay Feature to Help With The Upgrade From 10.2.0.4 to 11g (Doc ID 748895.1)
+* How to Use Database Replay Feature to Help With The Upgrade From 10.2.0.4 to 11g (Doc ID 748895.1)
