@@ -1,3 +1,4 @@
+
 # Real Application Testing
 
 Real Application Testing, aka RAT, is an option introduced on oracle 11g.
@@ -42,7 +43,8 @@ Before start the capture process we recommend to shutdown the database and take 
 
 For this workshop we will only start the capture process. To this process we will use the DBMS_WORKLOAD_CAPTURE package with admintrator user:
 
-``BEGIN
+``
+BEGIN
   DBMS_WORKLOAD_CAPTURE.start_capture (
       name => 'test_capture_1',
        dir => 'DBCAPTURE',
@@ -96,7 +98,7 @@ total 8
 drwxr-xr-x 2 oracle asmadmin 4096 Mar 30 04:54 cap
 drwxr-xr-x 3 oracle asmadmin 4096 Mar 30 04:08 capfiles
 [oracle@orcl11gr2-demo dbcapture]$ cd ..
-[oracle@orcl11gr2-demo oracle]$ scp -r dbcapture  <destination_IP>:/u01/app/oracle
+[oracle@orcl11gr2-demo oracle]$ scp -r dbcapture  10.0.0.4:/u01/app/oracle
 wcr_scapture.wmd                                                                                                                                           100%  102    90.1KB/s   00:00
 wcr_cr.text                                                                                                                                                100%   19KB  10.9MB/s   00:00
 wcr_cr.xml                                                                                                                                                 100%  188KB  43.1MB/s   00:00
@@ -113,16 +115,16 @@ You can checking the capture process on database.
 ``SQL> COLUMN name FORMAT A30
 SELECT id, name FROM dba_workload_captures;SQL>
 
-        ID NAME
----------- ------------------------------
+'        ID NAME
+' ---------- ------------------------------
          1 test_capture_1
 
 SQL>  SELECT DBMS_WORKLOAD_CAPTURE.get_capture_info('DBCAPTURE') from dual;
 
 DBMS_WORKLOAD_CAPTURE.GET_CAPTURE_INFO('DBCAPTURE')
----------------------------------------------------
+ '---------------------------------------------------
                                                   1
-
+                                                  
 ``
 
 Also, you can generate report:
@@ -264,8 +266,7 @@ PS. you can cancel this process once started with DBMS_WORKLOAD_REPLAY.cancel_re
 
 After this command, on the other session when replay finishes, you will find this message:
 
-``
-[oracle@ol6-12cr1 dbcapture]$ wrc system/oracle mode=replay replaydir=/u01/app/oracle/dbcapture/
+``[oracle@ol6-12cr1 dbcapture]$ wrc system/oracle mode=replay replaydir=/u01/app/oracle/dbcapture/
 
 Workload Replay Client: Release 12.1.0.2.0 - Production on Wed Apr 8 19:45:00 2020
 
@@ -274,9 +275,7 @@ Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
 
 Wait for the replay to start (19:45:00)
 Replay client 1 started (19:45:58)
-Replay client 1 finished (21:30:00)
-
-``
+Replay client 1 finished (21:30:00)``
 
 
 
