@@ -42,8 +42,7 @@ Before start the capture process we recommend to shutdown the database and take 
 
 For this workshop we will only start the capture process. To this process we will use the DBMS_WORKLOAD_CAPTURE package with admintrator user:
 
-``
-BEGIN
+``BEGIN
   DBMS_WORKLOAD_CAPTURE.start_capture (
       name => 'test_capture_1',
        dir => 'DBCAPTURE',
@@ -97,7 +96,7 @@ total 8
 drwxr-xr-x 2 oracle asmadmin 4096 Mar 30 04:54 cap
 drwxr-xr-x 3 oracle asmadmin 4096 Mar 30 04:08 capfiles
 [oracle@orcl11gr2-demo dbcapture]$ cd ..
-[oracle@orcl11gr2-demo oracle]$ scp -r dbcapture  10.0.0.4:/u01/app/oracle
+[oracle@orcl11gr2-demo oracle]$ scp -r dbcapture  <destination_IP>:/u01/app/oracle
 wcr_scapture.wmd                                                                                                                                           100%  102    90.1KB/s   00:00
 wcr_cr.text                                                                                                                                                100%   19KB  10.9MB/s   00:00
 wcr_cr.xml                                                                                                                                                 100%  188KB  43.1MB/s   00:00
@@ -111,8 +110,7 @@ wcr_82wswh000000b.rec                                                           
 
 You can checking the capture process on database.
 
-``
-SQL> COLUMN name FORMAT A30
+``SQL> COLUMN name FORMAT A30
 SELECT id, name FROM dba_workload_captures;SQL>
 
         ID NAME
@@ -282,7 +280,7 @@ Replay client 1 finished (21:30:00)
 
 
 
-Additional  materials:
+__Additional  materials__
  Database Capture and Replay: Common Errors and Reasons (Doc ID 463263.1)
 
  Mandatory Patches for Database Testing Functionality for Current and Earlier Releases (Doc ID 560977.1)
