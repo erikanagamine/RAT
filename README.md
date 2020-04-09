@@ -1,4 +1,13 @@
 
+``
+#     ___  ____     _    ____ _     _____
+#    / _ \|  _ \   / \  / ___| |   | ____|
+#   | | | | |_) | / _ \| |   | |   |  _|
+#   | |_| |  _ < / ___ | |___| |___| |___
+#    \___/|_| \_/_/   \_\____|_____|_____|
+
+``
+
 # Real Application Testing
 
 Real Application Testing, aka RAT, is an option introduced on oracle 11g.
