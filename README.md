@@ -23,7 +23,6 @@ In the source database, you will need to configure the capture process.
 ___Configure capture process___
 
 1. Creating directory:
-``
 <!-- markdownlint-disable MD01 -->
 [oracle@orcl11gr2-demo ~]$ cd /u01/app/oracle
 
@@ -32,14 +31,13 @@ ___Configure capture process___
 [oracle@orcl11gr2-demo oracle]$ cd dbcapture/
 <!-- markdownlint-enable MD01 -->
 
-``
-
-2. Creating directory on database
+1. Creating directory on database
 
 Logging in the database, using the client of your preference (in this case I will use the SQL*Plus):
-
-``SQL> create directory dbcapture as '/u01/app/oracle/dbcapture/';
-Directory created.``
+<!-- markdownlint-disable MD02 -->
+SQL> create directory dbcapture as '/u01/app/oracle/dbcapture/';
+Directory created.
+<!-- markdownlint-enable MD02 -->
 
 3. Start capture process
 
@@ -47,7 +45,7 @@ Before start the capture process we recommend to shutdown the database and take 
 
 For this workshop we will only start the capture process. To this process we will use the DBMS_WORKLOAD_CAPTURE package with admintrator user:
 
-``
+<!-- markdownlint-disable MD03 -->
 BEGIN
   DBMS_WORKLOAD_CAPTURE.start_capture (
       name => 'test_capture_1',
@@ -55,7 +53,7 @@ BEGIN
   duration => NULL);
   END;
 /
-``
+<!-- markdownlint-disable MD04 -->
 
 4. Start work to capture
 
