@@ -1,8 +1,9 @@
+
 # Real Application Testing
 
 Real Application Testing, aka RAT, is an option introduced on oracle 11g.
 
-This option comprehand the follow features:
+This option comprehend the follow features:
 
 * Database Replay
 * SQL Performance analyzer (SPA)
@@ -128,7 +129,7 @@ SELECT id, name FROM dba_workload_captures;SQL>
 SQL>  SELECT DBMS_WORKLOAD_CAPTURE.get_capture_info('DBCAPTURE') from dual;
 
 DBMS_WORKLOAD_CAPTURE.GET_CAPTURE_INFO('DBCAPTURE')
- '---------------------------------------------------
+---------------------------------------------------
                                                   1
 
 ```
@@ -207,11 +208,11 @@ Before to start the replay process, it's important to calibrate the replay proce
 
 
 ```
-[oracle@orcl11gr2-demo dbcapture]$ wrc mode=calibrate replaydir=/u01/app/oracle/dbcapture
+[oracle@ol6-12cr1 OPatch]$ wrc mode=calibrate replaydir=/u01/app/oracle/dbcapture
 
-Workload Replay Client: Release 11.2.0.4.0 - Production on Wed Apr 1 00:57:05 2020
+Workload Replay Client: Release 12.1.0.2.0 - Production on Thu Apr 9 12:55:53 2020
 
-Copyright (c) 1982, 2011, Oracle and/or its affiliates.  All rights reserved.
+Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
 
 
 Report for Workload in: /u01/app/oracle/dbcapture
@@ -219,16 +220,16 @@ Report for Workload in: /u01/app/oracle/dbcapture
 
 Recommendation:
 Consider using at least 1 clients divided among 1 CPU(s)
-You will need at least 7 MB of memory per client process.
+You will need at least 48 MB of memory per client process.
 If your machine(s) cannot match that number, consider using more clients.
 
 Workload Characteristics:
-- max concurrency: 2 sessions
-- total number of sessions: 4
+- max concurrency: 13 sessions
+- total number of sessions: 96
 
 Assumptions:
 - 1 client process per 50 concurrent sessions
-- 4 client process per CPU
+- 4 client processes per CPU
 - 256 KB of memory cache per concurrent session
 - think time scale = 100
 - connect time scale = 100
@@ -264,26 +265,27 @@ Once client instantiation, you need to start the replay:
 ```
 [oracle@ol6-12cr1 ~]$ sqlplus
 
-SQL*Plus: Release 12.1.0.2.0 Production on Wed Apr 8 17:27:31 2020
+SQL*Plus: Release 12.1.0.2.0 Production on Thu Apr 9 13:00:39 2020
 
 Copyright (c) 1982, 2014, Oracle.  All rights reserved.
 
-Enter user-name: system/oracle
-Last Successful login time: Wed Apr 08 2020 17:23:23 +00:00
+Enter user-name: / as sysdba
 
 Connected to:
 Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
 With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
 
-
 SQL> BEGIN
   DBMS_WORKLOAD_REPLAY.start_replay;
 END;
-/  2    3    4
+/  2    3    4  
 
 PL/SQL procedure successfully completed.
 
-SQL>
+SQL> 
+SQL> exit
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
 
 ```
 
