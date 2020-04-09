@@ -1,4 +1,3 @@
-
 # Real Application Testing
 
 Real Application Testing, aka RAT, is an option introduced on oracle 11g.
@@ -23,21 +22,23 @@ In the source database, you will need to configure the capture process.
 ___Configure capture process___
 
 1. Creating directory:
-<!-- markdownlint-disable MD01 -->
+
+```
 [oracle@orcl11gr2-demo ~]$ cd /u01/app/oracle
 
 [oracle@orcl11gr2-demo oracle]$ mkdir dbcapture
 
 [oracle@orcl11gr2-demo oracle]$ cd dbcapture/
-<!-- markdownlint-enable MD01 -->
+```
 
 1. Creating directory on database
 
 Logging in the database, using the client of your preference (in this case I will use the SQL*Plus):
-<!-- markdownlint-disable MD02 -->
+
+```
 SQL> create directory dbcapture as '/u01/app/oracle/dbcapture/';
 Directory created.
-<!-- markdownlint-enable MD02 -->
+```
 
 3. Start capture process
 
@@ -45,7 +46,8 @@ Before start the capture process we recommend to shutdown the database and take 
 
 For this workshop we will only start the capture process. To this process we will use the DBMS_WORKLOAD_CAPTURE package with admintrator user:
 
-<!-- markdownlint-disable MD03 -->
+
+```
 BEGIN
   DBMS_WORKLOAD_CAPTURE.start_capture (
       name => 'test_capture_1',
@@ -53,22 +55,25 @@ BEGIN
   duration => NULL);
   END;
 /
-<!-- markdownlint-enable MD04 -->
+```
 
 4. Start work to capture
 
 Now we will start some work to capture. First we will create a user:
-<!-- markdownlint-disable MD05 -->
+
+```
 CREATE USER db_replay_test IDENTIFIED BY Welcome123
   QUOTA UNLIMITED ON users;
  
 GRANT CONNECT, CREATE TABLE TO db_replay_test;
-<!-- markdownlint-enable MD05 -->
+```
+
 
 
 Now we will connect with this user and generate a load:
 
-<!-- markdownlint-disable MD06 -->
+
+```
 SQL> conn db_replay_test/Welcome123
   SQL> CREATE TABLE db_replay_test_tab (
    id           NUMBER,
@@ -83,31 +88,36 @@ SQL> BEGIN
   END LOOP;
   COMMIT;
 END;
-<!-- markdownlint-enable MD06 -->
+```
 
 
 1. Finish the capture process
 
 After the load, connect as a administrator and stop the capture:
 
+```
 BEGIN
    DBMS_WORKLOAD_CAPTURE.finish_capture;
    END;
    /
+```
 
 
 1. Transfer the capture generated to target server
 
+```
 [oracle@orcl11gr2-demo dbcapture]$ ls -l
 total 8
 drwxr-xr-x 2 oracle asmadmin 4096 Mar 30 04:54 cap
 drwxr-xr-x 3 oracle asmadmin 4096 Mar 30 04:08 capfiles
 [oracle@orcl11gr2-demo dbcapture]$ cd ..
 [oracle@orcl11gr2-demo oracle]$ scp -r dbcapture  10.0.0.4:/u01/app/oracle
+```
 
 
 You can checking the capture process on database.
 
+```
 SQL> COLUMN name FORMAT A30
 SELECT id, name FROM dba_workload_captures;SQL>
 
@@ -121,8 +131,12 @@ DBMS_WORKLOAD_CAPTURE.GET_CAPTURE_INFO('DBCAPTURE')
  '---------------------------------------------------
                                                   1
 
+```
+
+
 Also, you can generate report:
 
+```
 DECLARE
   l_report  CLOB;
 BEGIN
@@ -130,14 +144,17 @@ BEGIN
                                            format     => DBMS_WORKLOAD_CAPTURE.TYPE_HTML);
 END;
 /
+```
 
 
 And export this report to HTML:
 
+```
 BEGIN
   DBMS_WORKLOAD_CAPTURE.export_awr (capture_id => 1);
 END;
 /
+```
 
 
 
@@ -147,6 +164,7 @@ ___Configure replay process___
 
 Checking all files that have been generated during capture process and transfered to the target server:
 
+```
 [oracle@ora12cr1-demo ~]$ cd /u01/app/oracle
 [oracle@ora12cr1-demo oracle]$ cd dbcapture/
 [oracle@ora12cr1-demo dbcapture]$ ls -l
@@ -154,17 +172,23 @@ total 8
 drwxr-xr-x 2 oracle oinstall 4096 Mar 31 18:13 cap
 drwxr-xr-x 3 oracle oinstall 4096 Mar 30 04:57 capfiles
 
+```
+
 2. Create directory on target database
 
 You need to create a database link to import data generated on Database Replay:
 
+```
 SQL> create directory dbcapture as '/u01/app/oracle/dbcapture/';
 Directory created.
+
+```
 
 3. Preparing the target database to Replay
 
 With this procedure, you will indicate to the target database with all generated logs and appoint where the logs resides.
 
+```
 BEGIN
   DBMS_WORKLOAD_REPLAY.process_capture('DBCAPTURE');
 
@@ -175,10 +199,14 @@ BEGIN
 END;
 /
 
+```
+
 4. Checking if the target database has sufficient resources to replay the workload
 
-Before to start the replay process, it's important to
+Before to start the replay process, it's important to calibrate the replay process.
 
+
+```
 [oracle@orcl11gr2-demo dbcapture]$ wrc mode=calibrate replaydir=/u01/app/oracle/dbcapture
 
 Workload Replay Client: Release 11.2.0.4.0 - Production on Wed Apr 1 00:57:05 2020
@@ -187,7 +215,7 @@ Copyright (c) 1982, 2011, Oracle and/or its affiliates.  All rights reserved.
 
 
 Report for Workload in: /u01/app/oracle/dbcapture
-'-----------------------
+-----------------------
 
 Recommendation:
 Consider using at least 1 clients divided among 1 CPU(s)
@@ -206,11 +234,14 @@ Assumptions:
 - connect time scale = 100
 - synchronization = TRUE
 
+```
+
  
 5. Replay a workload: instantiate a client
 
 Once checked the workload, you have to instantiate the workload replay (observe the amount of CPU necessary to workload):
 
+```
 
 [oracle@ol6-12cr1 ~]$ wrc system/oracle mode=replay replaydir=/u01/app/oracle/dbcapture
 
@@ -221,6 +252,7 @@ Copyright (c) 1982, 2014, Oracle and/or its affiliates.  All rights reserved.
 Wait for the replay to start (17:23:23)
 
 
+```
 Leave this session opened to monitoring the replay process once started. Also, you can use the nohup to this process.
 
 
@@ -228,6 +260,8 @@ Leave this session opened to monitoring the replay process once started. Also, y
 
 Once client instantiation, you need to start the replay:
 
+
+```
 [oracle@ol6-12cr1 ~]$ sqlplus
 
 SQL*Plus: Release 12.1.0.2.0 Production on Wed Apr 8 17:27:31 2020
@@ -241,6 +275,7 @@ Connected to:
 Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
 With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
 
+
 SQL> BEGIN
   DBMS_WORKLOAD_REPLAY.start_replay;
 END;
@@ -250,10 +285,13 @@ PL/SQL procedure successfully completed.
 
 SQL>
 
+```
+
 PS. you can cancel this process once started with DBMS_WORKLOAD_REPLAY.cancel_replay;
 
 After this command, on the other session when replay finishes, you will find this message:
 
+```
 [oracle@ol6-12cr1 dbcapture]$ wrc system/oracle mode=replay replaydir=/u01/app/oracle/dbcapture/
 
 Workload Replay Client: Release 12.1.0.2.0 - Production on Wed Apr 8 19:45:00 2020
@@ -265,7 +303,7 @@ Wait for the replay to start (19:45:00)
 Replay client 1 started (19:45:58)
 Replay client 1 finished (21:30:00)
 
-
+```
 
 __Additional  materials__
 
