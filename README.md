@@ -23,11 +23,15 @@ In the source database, you will need to configure the capture process.
 ___Configure capture process___
 
 1. Creating directory:
-
 ``
+<!-- markdownlint-disable MD01 -->
 [oracle@orcl11gr2-demo ~]$ cd /u01/app/oracle
+
 [oracle@orcl11gr2-demo oracle]$ mkdir dbcapture
+
 [oracle@orcl11gr2-demo oracle]$ cd dbcapture/
+<!-- markdownlint-enable MD01 -->
+
 ``
 
 2. Creating directory on database
