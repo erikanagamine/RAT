@@ -7,7 +7,7 @@
 
 # Real Application Testing
 
-Real Application Testing, aka RAT, is an option introduced on oracle 11g.
+Real Application Testing, aka RAT, is an option of Oracle Enterprise Edition and allows you to perform database workloads.
 
 This option comprehend the follow features:
 
